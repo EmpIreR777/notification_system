@@ -1,0 +1,99 @@
+[project]
+name = "test_task"
+version = "1.0.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    'fastapi>=0.104.1',
+    'uvicorn[standard]>=0.24.0',
+    'pydantic>=2.6.0',
+    'pydantic-settings>=2.5.0',
+    'python-dotenv>=1.0.0',
+    'tenacity>=8.2.3',
+    'aiosmtplib>=3.0.1',
+    'email-validator>=2.1.0',
+    'aiofiles>=23.2.1',
+    'loguru>=0.7.3',
+    "pyparsing>=3.2.5",
+]
+
+[dependency-groups]
+dev = [
+    'mypy>=1.18.2',
+    'pre-commit>=4.3.0',
+    'pytest>=7.4.3',
+    'pytest-asyncio>=0.21.1',
+    'pytest-cov>=4.1.0',
+    'ruff>=0.13.3',
+]
+
+[tool.ruff]
+line-length = 120
+target-version = "py313"
+
+[tool.ruff.lint]
+select = [
+    "A",    # flake8-builtins: проверка перекрытия встроенных имён Python
+    "ANN",  # flake8-annotations: проверка аннотаций типов
+    "ARG",  # flake8-unused-arguments: проверка неиспользуемых аргументов
+    "B",    # flake8-bugbear: поиск потенциальных багов
+    "C4",   # flake8-comprehensions: улучшение списковых включений
+    "COM",  # flake8-commas: проверка правильности запятых
+    "E",    # pycodestyle errors: ошибки стиля кода (например, пробелы, отступы)
+    "F",    # Pyflakes: поиск ошибок в коде (неиспользуемые импорты, переменные и т.д.)
+    "I",    # isort: проверка сортировки и форматирования импортов
+    "N",    # pep8-naming: проверка соответствия имён переменных и функций PEP8
+    "PT",   # flake8-pytest-style: проверка стиля тестов pytest
+    "RET",  # flake8-return: проверка возвратов из функций
+    "RUF",  # Ruff-specific rules: специфичные для Ruff правила
+    "S",    # flake8-bandit: проверка безопасности (например, уязвимости)
+    "SIM",  # flake8-simplify: упрощение кода
+    "UP",   # pyupgrade: обновление синтаксиса для соответствия современной версии Python
+    "W",    # pycodestyle warnings: предупреждения стиля кода
+]
+
+ignore = [
+    "ANN003",   # Не требует аннотации у **kwargs
+    "ANN401",   # Any в *args/**kwargs
+    "ARG001",   # Неиспользуемый аргумент (часто в коллбеках и сигнатурах FastAPI)
+    "B008", # FastAPI Depends
+    "B904", # raise statements in exception handlers that lack a from clause
+    "COM812",  # missing trailing comma, it exists in ruff.format
+    "S101", # assert в тестах
+    "RUF012", # Проверка на использование `is` для сравнения с `None`
+    "ARG005", # Неиспользуемый аргумент (часто в коллбеках и сигнатурах FastAPI)
+    "RUF002",   # Checks for ambiguous Unicode characters in docstrings
+    "N805",     # First argument of a method should be named `self` - ИГНОРИРУЕМ для Pydantic валидаторов
+]
+
+allowed-confusables = ["с", "е", "Н", "о"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["app"]
+
+[tool.ruff.format]
+quote-style = "single"
+indent-style = "space"
+line-ending = "lf"
+
+[tool.mypy]
+mypy_path = "$MYPY_CONFIG_FILE_DIR"
+explicit_package_bases = true
+strict = true
+plugins = ["pydantic.mypy"]
+
+warn_redundant_casts = true
+warn_unused_configs = true
+warn_unreachable = true
+
+[[tool.mypy.overrides]]
+module = []
+disable_error_code = ["attr-defined"]
+
+[[tool.mypy.overrides]]
+module = []
+ignore_errors = true
+
+[tool.codespell]
+ignore-words-list = "selectin"
